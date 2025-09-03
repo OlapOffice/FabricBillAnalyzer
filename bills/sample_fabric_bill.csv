@@ -1,0 +1,11 @@
+MeterCategory,ConsumedService,ResourceName,Cost
+Azure App Service,microsoft.web,oo100-asp,53.25
+Azure Cognitive Search,Microsoft.Search,gptkb-kjfebpvfuinfi,238.22
+Azure Storage,Microsoft.Storage,stg001,125.50
+Azure App Service,microsoft.web,webapp-prod,89.75
+Bandwidth,Microsoft.Network,outbound-transfer,45.20
+Azure Cognitive Search,Microsoft.Search,search-service-02,156.88
+Azure Storage,Microsoft.Storage,blobstorage,67.33
+Compute,Microsoft.Compute,vm-production,445.67
+Bandwidth,Microsoft.Network,cdn-transfer,23.15
+Compute,Microsoft.Compute,vm-staging,178.32
