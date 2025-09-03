@@ -1,5 +1,5 @@
 """
-Enhanced Microsoft Fabric Bill Analyzer - Flask Web Application
+Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Flask Web Application
 Web interface with Combined Sorted Report feature
 """
 
@@ -8,8 +8,10 @@ import os
 import pandas as pd
 from werkzeug.utils import secure_filename
 from analyzer import FabricBillAnalyzer
+from charts import create_charts
 import tempfile
 import json
+import logging
 
 app = Flask(__name__)
 app.secret_key = 'fabric_bill_analyzer_secret_key_2024'
@@ -95,6 +97,9 @@ def analyze_file(filename):
         combined_report = analyzer.generate_combined_sorted_report()  # NEW FEATURE
         top_costs = analyzer.get_top_costs(10)
         
+        # NEW: Generate interactive charts
+        charts = create_charts(analyzer)
+        
         # Convert DataFrames to dictionaries for template rendering
         analyses = {
             'basic_stats': basic_stats,
@@ -102,7 +107,8 @@ def analyze_file(filename):
             'categories': category_analysis.to_dict('records') if not category_analysis.empty else [],
             'resources': resource_analysis.to_dict('records') if not resource_analysis.empty else [],
             'combined_report': combined_report.to_dict('records') if not combined_report.empty else [],  # NEW
-            'top_costs': top_costs.to_dict('records') if not top_costs.empty else []
+            'top_costs': top_costs.to_dict('records') if not top_costs.empty else [],
+            'charts': charts  # NEW: Interactive charts
         }
         
         # Generate summary report
@@ -202,6 +208,98 @@ def api_combined_report(filename):
         'total_cost': float(combined_report['Cost'].sum()) if not combined_report.empty else 0
     })
 
+@app.route('/filter/<filename>')
+def filter_data(filename):
+    """Advanced filtering interface - NEW FEATURE."""
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
+    if not os.path.exists(file_path):
+        flash('File not found', 'error')
+        return redirect(url_for('index'))
+    
+    analyzer = FabricBillAnalyzer()
+    if not analyzer.load_data(file_path):
+        flash('Error loading file', 'error')
+        return redirect(url_for('index'))
+    
+    # Get filter parameters from request
+    category_filter = request.args.get('category', '')
+    service_filter = request.args.get('service', '')
+    min_cost = request.args.get('min_cost', '')
+    max_cost = request.args.get('max_cost', '')
+    resource_filter = request.args.get('resource', '')
+    
+    # Convert cost filters to float if provided
+    min_cost_value = None
+    max_cost_value = None
+    
+    if min_cost and min_cost.strip():
+        try:
+            min_cost_value = float(min_cost)
+        except ValueError:
+            min_cost_value = None
+    
+    if max_cost and max_cost.strip():
+        try:
+            max_cost_value = float(max_cost)
+        except ValueError:
+            max_cost_value = None
+    
+    # Apply filters
+    filtered_df = analyzer.df.copy()
+    
+    if category_filter:
+        filtered_df = filtered_df[filtered_df['MeterCategory'].str.contains(category_filter, case=False, na=False)]
+    
+    if service_filter:
+        filtered_df = filtered_df[filtered_df['ConsumedService'].str.contains(service_filter, case=False, na=False)]
+    
+    if resource_filter:
+        filtered_df = filtered_df[filtered_df['ResourceName'].str.contains(resource_filter, case=False, na=False)]
+    
+    if min_cost_value is not None:
+        # Ensure Cost column is numeric
+        filtered_df = filtered_df[pd.to_numeric(filtered_df['Cost'], errors='coerce') >= min_cost_value]
+    
+    if max_cost_value is not None:
+        # Ensure Cost column is numeric
+        filtered_df = filtered_df[pd.to_numeric(filtered_df['Cost'], errors='coerce') <= max_cost_value]
+    
+    # Get unique values for filter dropdowns (from original data)
+    filter_options = {
+        'categories': sorted([cat for cat in analyzer.df['MeterCategory'].unique() if pd.notna(cat)]),
+        'services': sorted([svc for svc in analyzer.df['ConsumedService'].unique() if pd.notna(svc)]),
+        'cost_range': {
+            'min': float(analyzer.df['Cost'].min()),
+            'max': float(analyzer.df['Cost'].max())
+        }
+    }
+    
+    # Calculate filtered statistics
+    filtered_stats = {
+        'total_records': len(filtered_df),
+        'total_cost': float(filtered_df['Cost'].sum()) if not filtered_df.empty else 0.0,
+        'avg_cost': float(filtered_df['Cost'].mean()) if not filtered_df.empty else 0.0,
+        'unique_services': filtered_df['ConsumedService'].nunique() if not filtered_df.empty else 0,
+        'unique_categories': filtered_df['MeterCategory'].nunique() if not filtered_df.empty else 0
+    }
+    
+    # Convert to records for template
+    filtered_records = filtered_df.to_dict('records') if not filtered_df.empty else []
+    
+    return render_template('filter.html', 
+                          filename=filename,
+                          filtered_data=filtered_records,
+                          filtered_stats=filtered_stats,
+                          filter_options=filter_options,
+                          applied_filters={
+                              'category': category_filter,
+                              'service': service_filter,
+                              'min_cost': min_cost_value,
+                              'max_cost': max_cost_value,
+                              'resource': resource_filter
+                          })
+
 @app.route('/search/<filename>')
 def search_resources(filename):
     """Search for resources."""
@@ -268,15 +366,16 @@ def internal_error(e):
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
-    print("Starting Microsoft Fabric Bill Analyzer - Enhanced Version")
-    print("=" * 60)
+    print("Starting Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Version")
+    print("=" * 70)
     print("🚀 NEW FEATURE: Combined Sorted Report")
     print("   - Sort by: MeterCategory↑, ConsumedService↑, Cost↓")
     print("   - Export to BillSort.csv format")
     print("   - Available in both web interface and Excel export")
-    print("=" * 60)
-    print("Open your browser and go to: http://localhost:5000")
-    print("To stop the server, press Ctrl+C")
-    print("=" * 60)
+    print("=" * 70)
+    print("🌐 Powered by Semanticise Inc. - https://semanticise.com/")
+    print("🌍 Open your browser and go to: http://localhost:5000")
+    print("⏹️  To stop the server, press Ctrl+C")
+    print("=" * 70)
     
     app.run(debug=True, host='0.0.0.0', port=5000)

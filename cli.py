@@ -1,5 +1,5 @@
 """
-Simple CLI for Microsoft Fabric Bill Analyzer - Enhanced Version
+Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced CLI
 Command-line interface with Combined Sorted Report feature
 """
 
@@ -9,7 +9,8 @@ from analyzer import FabricBillAnalyzer
 
 def main():
     print("="*70)
-    print("🚀 MICROSOFT FABRIC BILL ANALYZER - ENHANCED VERSION")
+    print("🚀 SEMANTICISE INC. MICROSOFT FABRIC BILL ANALYZER - ENHANCED")
+    print("🌐 Visit us at: https://semanticise.com/")
     print("🆕 NEW FEATURE: Combined Sorted Report")
     print("="*70)
     
@@ -105,6 +106,7 @@ def main():
     # Summary
     print(f"\n{'='*70}")
     print(f"✅ ANALYSIS COMPLETED SUCCESSFULLY!")
+    print(f"🌐 Powered by Semanticise Inc. - https://semanticise.com/")
     if exports_done:
         print(f"📁 Files exported:")
         for export in exports_done:

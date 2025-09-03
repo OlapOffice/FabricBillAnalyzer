@@ -1,6 +1,8 @@
 """
-Microsoft Fabric Bill Analyzer - Enhanced with Combined Sorted Report
+Semanticia Inc. Microsoft Fabric Bill Analyzer - Enhanced with Combined Sorted Report
 
+Copyright (c) 2025 Semanticise Inc.
+Powered by Semanticise Inc. - https://semanticise.com/
 This file contains the exact enhanced analyzer.py content from the artifact
 """
 
@@ -175,31 +177,31 @@ class FabricBillAnalyzer:
     
     def generate_combined_sorted_report(self) -> pd.DataFrame:
         """
-        Generate the Combined Sorted Report with the exact format: MeterCategory↑, ConsumedService↑, Cost↓
-        This is the NEW FEATURE requested.
+        Generate the Combined Sorted Report with GROUPED costs by unique combinations.
+        Groups records by MeterCategory + ConsumedService + ResourceName and sums costs.
+        Sort by: MeterCategory↑, ConsumedService↑, Cost↓
         """
         if self.df is None:
             logger.error("No data loaded. Please load data first.")
             return pd.DataFrame()
         
-        logger.info("Generating Combined Sorted Report...")
+        logger.info("Generating Combined Sorted Report with grouped costs...")
         
-        # Create the combined sorted report
+        # Group by MeterCategory, ConsumedService, and ResourceName, sum the costs
+        grouped_df = self.df.groupby(['MeterCategory', 'ConsumedService', 'ResourceName']).agg({
+            'Cost': 'sum'
+        }).reset_index()
+        
         # Sort by: MeterCategory (ascending), ConsumedService (ascending), Cost (descending)
-        sorted_df = self.df.copy()
-        sorted_df = sorted_df.sort_values(
+        combined_report = grouped_df.sort_values(
             by=['MeterCategory', 'ConsumedService', 'Cost'],
             ascending=[True, True, False]
-        )
-        
-        # Select only the required columns in the exact order
-        report_columns = ['MeterCategory', 'ConsumedService', 'ResourceName', 'Cost']
-        combined_report = sorted_df[report_columns].copy()
+        ).reset_index(drop=True)
         
         # Round cost to 2 decimal places
         combined_report['Cost'] = combined_report['Cost'].round(2)
         
-        logger.info(f"Combined Sorted Report generated: {len(combined_report)} records")
+        logger.info(f"Combined Sorted Report generated: {len(combined_report)} grouped records from {len(self.df)} individual records")
         
         return combined_report
     
@@ -330,7 +332,7 @@ class FabricBillAnalyzer:
         combined_report = self.generate_combined_sorted_report()
         
         summary = f"""
-=== MICROSOFT FABRIC BILL ANALYSIS REPORT ===
+=== SEMANTICISE INC. MICROSOFT FABRIC BILL ANALYSIS REPORT ===\nPowered by Semanticise Inc. - https://semanticise.com/
 Analysis Date: {stats['analysis_date']}
 Data Source: {os.path.basename(self.file_path) if self.file_path else 'Unknown'}
 
@@ -372,8 +374,9 @@ TOP 3 SERVICES BY COST:
 
 def main():
     """Main function for command-line usage."""
-    print("Microsoft Fabric Bill Analyzer - Enhanced Version")
-    print("=" * 50)
+    print("Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Version")
+    print("🌐 Visit us at: https://semanticise.com/")
+    print("=" * 60)
     
     analyzer = FabricBillAnalyzer()
     

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Results - Microsoft Fabric Bill Analyzer</title>
+    <title>Semanticise Inc. - Analysis Results | Microsoft Fabric Bill Analyzer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Plotly.js for Interactive Charts -->
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
     <style>
         .metric-card {
             transition: transform 0.3s ease;
@@ -46,13 +48,27 @@
             padding: 1rem;
             font-size: 0.875rem;
         }
+        /* Sortable table headers */
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+        .sortable:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        .sort-icon {
+            margin-left: 5px;
+            transition: all 0.2s ease;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-chart-line me-2"></i>Fabric Bill Analyzer
+                <i class="fas fa-chart-line me-2"></i><a href="https://semanticise.com/" target="_blank" class="text-white text-decoration-none">Semanticise Inc.</a> Fabric Bill Analyzer
             </a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="{{ url_for('index') }}">
@@ -68,7 +84,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h1><i class="fas fa-analytics text-primary me-2"></i>Analysis Results</h1>
+                        <h1><i class="fas fa-analytics text-primary me-2"></i>Analysis Results - <a href="https://semanticise.com/" target="_blank" class="text-decoration-none">Semanticise Inc.</a></h1>
                         <p class="text-muted">File: <strong>{{ filename }}</strong></p>
                     </div>
                     <div class="export-buttons">
@@ -157,14 +173,14 @@
                             <span class="new-badge">NEW FEATURE</span>
                         </h4>
                         <div>
-                            <small>Sort: MeterCategory↑, ConsumedService↑, Cost↓</small>
+                            <small>Grouped costs by unique combinations • Click column headers to sort</small>
                         </div>
                     </div>
                     <div class="card-body">
                         {% if analyses.combined_report %}
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <p class="mb-0">
-                                    <strong>{{ analyses.combined_report|length }}</strong> records sorted by category, service, and cost
+                                    <strong>{{ analyses.combined_report|length }}</strong> unique combinations with grouped costs - Click headers to sort
                                 </p>
                                 <div>
                                     <a href="{{ url_for('export_combined_csv', filename=filename) }}" 
@@ -174,32 +190,42 @@
                                 </div>
                             </div>
                             <div class="table-container">
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover" id="combinedReportTable">
                                     <thead class="table-success sticky-top">
                                         <tr>
-                                            <th>MeterCategory <i class="fas fa-sort-up text-success"></i></th>
-                                            <th>ConsumedService <i class="fas fa-sort-up text-success"></i></th>
-                                            <th>ResourceName</th>
-                                            <th class="text-end">Cost <i class="fas fa-sort-down text-success"></i></th>
+                                            <th class="sortable" data-column="0" data-sort="asc">
+                                                MeterCategory 
+                                                <i class="fas fa-sort-up text-success sort-icon" id="sort-0"></i>
+                                            </th>
+                                            <th class="sortable" data-column="1" data-sort="asc">
+                                                ConsumedService 
+                                                <i class="fas fa-sort-up text-success sort-icon" id="sort-1"></i>
+                                            </th>
+                                            <th class="sortable" data-column="2" data-sort="none">
+                                                ResourceName 
+                                                <i class="fas fa-sort text-muted sort-icon" id="sort-2"></i>
+                                            </th>
+                                            <th class="sortable text-end" data-column="3" data-sort="desc">
+                                                Cost (Grouped) 
+                                                <i class="fas fa-sort-down text-success sort-icon" id="sort-3"></i>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for item in analyses.combined_report[:100] %}
+                                        {% for item in analyses.combined_report %}
                                         <tr>
-                                            <td>{{ item.MeterCategory }}</td>
-                                            <td>{{ item.ConsumedService }}</td>
+                                            <td>
+                                                <span class="badge bg-info text-white">{{ item.MeterCategory }}</span>
+                                            </td>
+                                            <td>
+                                                <strong>{{ item.ConsumedService }}</strong>
+                                            </td>
                                             <td>{{ item.ResourceName }}</td>
-                                            <td class="text-end">${{ "%.2f"|format(item.Cost) }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                        {% if analyses.combined_report|length > 100 %}
-                                        <tr>
-                                            <td colspan="4" class="text-center text-muted">
-                                                <i>... and {{ analyses.combined_report|length - 100 }} more records. 
-                                                Download CSV or Excel for complete data.</i>
+                                            <td class="text-end">
+                                                <span class="h6 text-success">${{ "%.2f"|format(item.Cost) }}</span>
                                             </td>
                                         </tr>
-                                        {% endif %}
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -327,6 +353,65 @@
             </div>
         </div>
 
+        <!-- Interactive Charts Section - NEW -->
+        {% if analyses.charts %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>Interactive Charts
+                            <span class="badge bg-success ms-2">NEW</span>
+                        </h4>
+                        <div>
+                            <a href="{{ url_for('filter_data', filename=filename) }}" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-filter me-1"></i>Advanced Filters
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="chart-container">
+                                    <h6><i class="fas fa-pie-chart me-1"></i>Cost Distribution by Service</h6>
+                                    {{ analyses.charts.service_pie_chart|safe }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="chart-container">
+                                    <h6><i class="fas fa-chart-bar me-1"></i>Cost by Category</h6>
+                                    {{ analyses.charts.category_bar_chart|safe }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="chart-container">
+                                    <h6><i class="fas fa-server me-1"></i>Top Resources</h6>
+                                    {{ analyses.charts.top_resources_chart|safe }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="chart-container">
+                                    <h6><i class="fas fa-chart-area me-1"></i>Cost Distribution</h6>
+                                    {{ analyses.charts.cost_histogram|safe }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="chart-container">
+                                    <h6><i class="fas fa-sun me-1"></i>Service Hierarchy (Sunburst)</h6>
+                                    {{ analyses.charts.sunburst_chart|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Summary Report -->
         <div class="row mb-4">
             <div class="col-12">
@@ -347,6 +432,10 @@
                 <a href="{{ url_for('index') }}" class="btn btn-primary me-2">
                     <i class="fas fa-home me-1"></i>Back to Home
                 </a>
+                <a href="{{ url_for('filter_data', filename=filename) }}" class="btn btn-info me-2">
+                    <i class="fas fa-filter me-1"></i>Advanced Filters
+                    <span class="badge bg-light text-dark ms-1">NEW</span>
+                </a>
                 <a href="{{ url_for('search_resources', filename=filename) }}?q=" 
                    class="btn btn-outline-primary me-2"
                    onclick="return (function(){ var q = prompt('Search for:'); if(q) window.location.href = '{{ url_for('search_resources', filename=filename) }}?q=' + encodeURIComponent(q); return false; })()">
@@ -365,10 +454,101 @@
 
     <footer class="bg-dark text-white text-center py-3 mt-5">
         <div class="container">
-            <p>&copy; 2024 Microsoft Fabric Bill Analyzer - Enhanced with Combined Sorted Report</p>
+            <p>&copy; 2025 <a href="https://semanticise.com/" target="_blank" class="text-white">Semanticise Inc.</a> Microsoft Fabric Bill Analyzer - Enhanced with Combined Sorted Report</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // Combined Sorted Report Table Sorting Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('combinedReportTable');
+        if (!table) return;
+        
+        const tbody = table.querySelector('tbody');
+        const headers = table.querySelectorAll('.sortable');
+        
+        // Add click listeners to sortable headers
+        headers.forEach(header => {
+            header.addEventListener('click', function() {
+                const column = parseInt(this.dataset.column);
+                const currentSort = this.dataset.sort;
+                let newSort;
+                
+                // Determine new sort direction
+                if (currentSort === 'none' || currentSort === 'desc') {
+                    newSort = 'asc';
+                } else {
+                    newSort = 'desc';
+                }
+                
+                // Reset all other headers to neutral
+                headers.forEach(h => {
+                    if (h !== this) {
+                        h.dataset.sort = 'none';
+                        const icon = h.querySelector('.sort-icon');
+                        icon.className = 'fas fa-sort text-muted sort-icon';
+                    }
+                });
+                
+                // Update current header
+                this.dataset.sort = newSort;
+                const icon = this.querySelector('.sort-icon');
+                if (newSort === 'asc') {
+                    icon.className = 'fas fa-sort-up text-success sort-icon';
+                } else {
+                    icon.className = 'fas fa-sort-down text-success sort-icon';
+                }
+                
+                // Sort the table
+                sortTable(column, newSort);
+            });
+        });
+        
+        function sortTable(column, direction) {
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            rows.sort((a, b) => {
+                const aCell = a.cells[column];
+                const bCell = b.cells[column];
+                
+                let aValue, bValue;
+                
+                // Handle cost column (numeric) - column 3
+                if (column === 3) {
+                    // Extract numeric value from cost cell
+                    aValue = parseFloat(aCell.textContent.replace('$', '').replace(',', '')) || 0;
+                    bValue = parseFloat(bCell.textContent.replace('$', '').replace(',', '')) || 0;
+                } else {
+                    // Text comparison for other columns
+                    aValue = aCell.textContent.trim().toLowerCase();
+                    bValue = bCell.textContent.trim().toLowerCase();
+                }
+                
+                if (aValue < bValue) {
+                    return direction === 'asc' ? -1 : 1;
+                } else if (aValue > bValue) {
+                    return direction === 'asc' ? 1 : -1;
+                } else {
+                    return 0;
+                }
+            });
+            
+            // Clear tbody and append sorted rows
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+            
+            // Add visual feedback
+            tbody.style.opacity = '0.7';
+            setTimeout(() => {
+                tbody.style.opacity = '1';
+            }, 200);
+        }
+        
+        // Initialize message
+        console.log('✅ Combined Sorted Report table sorting initialized - Grouped costs');
+    });
+    </script>
 </body>
 </html>

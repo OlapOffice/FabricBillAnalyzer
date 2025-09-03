@@ -1,6 +1,7 @@
 @echo off
 echo ================================================
-echo Microsoft Fabric Bill Analyzer - Git Setup
+echo Semanticise Inc. Microsoft Fabric Bill Analyzer - Git Setup
+echo Visit us at: https://semanticise.com/
 echo ================================================
 echo.
 echo This script will:
@@ -15,7 +16,7 @@ echo Initializing Git repository...
 git init
 
 echo Setting up Git user (if not already configured)...
-git config user.name "OLAP Office"
+git config user.name "Semanticise Inc."
 git config user.email "your-email@example.com"
 
 echo Adding remote repository...
@@ -25,7 +26,7 @@ echo Adding all files to staging area...
 git add .
 
 echo Creating initial commit...
-git commit -m "Enhanced Microsoft Fabric Bill Analyzer with Combined Sorted Report feature
+git commit -m "Semanticise Inc. Enhanced Microsoft Fabric Bill Analyzer with Combined Sorted Report feature
 
 Features added:
 - Combined Sorted Report (MeterCategory↑, ConsumedService↑, Cost↓)

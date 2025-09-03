@@ -1,7 +1,8 @@
 # Microsoft Fabric Bill Analyzer - Git Setup PowerShell Script
 
 Write-Host "===============================================" -ForegroundColor Cyan
-Write-Host "Microsoft Fabric Bill Analyzer - Git Setup" -ForegroundColor Yellow
+Write-Host "Semanticise Inc. Microsoft Fabric Bill Analyzer - Git Setup" -ForegroundColor Yellow
+Write-Host "Visit us at: https://semanticise.com/" -ForegroundColor Cyan
 Write-Host "===============================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -35,7 +36,7 @@ try {
 
 # Configure Git user (update with your details)
 Write-Host "👤 Configuring Git user..." -ForegroundColor Yellow
-git config user.name "OLAP Office"
+git config user.name "Semanticise Inc."
 git config user.email "olapoffice@example.com"  # Update with your email
 
 # Add remote repository
@@ -57,7 +58,7 @@ if ($files) {
     # Create commit
     Write-Host "💾 Creating initial commit..." -ForegroundColor Yellow
     $commitMessage = @"
-Enhanced Microsoft Fabric Bill Analyzer with Combined Sorted Report
+Semanticia Inc. Enhanced Microsoft Fabric Bill Analyzer with Combined Sorted Report
 
 🆕 NEW FEATURES:
 - Combined Sorted Report (MeterCategory↑, ConsumedService↑, Cost↓)

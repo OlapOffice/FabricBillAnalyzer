@@ -1,6 +1,7 @@
 @echo off
 echo ================================================
-echo Microsoft Fabric Bill Analyzer - Enhanced Version
+echo Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Version
+echo Visit us at: https://semanticise.com/
 echo ================================================
 echo.
 echo Starting web server...

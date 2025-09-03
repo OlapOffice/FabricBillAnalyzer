@@ -1,245 +1,328 @@
-# Microsoft Fabric Bill Analyzer - Enhanced Version 🚀
+# 🚀 Microsoft Fabric Bill Analyzer - Enhanced Edition
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Flask](https://img.shields.io/badge/flask-2.3.3-green.svg)](https://flask.palletsprojects.com/)
+**Powered by [Semanticise Inc.](https://semanticise.com/)**
 
-> **🆕 NEW FEATURE:** Combined Sorted Report with BillSort.csv export functionality
+A comprehensive Flask web application for analyzing Microsoft Fabric billing data with interactive charts, advanced filtering, and intelligent reporting features.
 
-A comprehensive tool for analyzing Microsoft Fabric billing data with advanced sorting and reporting capabilities.
+![Version](https://img.shields.io/badge/version-2.0-green)
+![Python](https://img.shields.io/badge/python-3.7+-blue)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-![Microsoft Fabric Bill Analyzer](https://img.shields.io/badge/Microsoft%20Fabric-Bill%20Analyzer-blue?style=for-the-badge&logo=microsoft)
+## ✨ Key Features
 
-## ✨ Features
+### 🆕 **NEW: Enhanced Features**
+- **📊 Interactive Charts** - Plotly-powered visualizations with hover details
+- **🔍 Advanced Filtering System** - Multi-dimensional filtering with real-time results
+- **📑 Combined Sorted Report** - Intelligent data sorting (MeterCategory↑, ConsumedService↑, Cost↓)
+- **💾 BillSort.csv Export** - Standardized CSV export format
 
-### 🆕 **New: Combined Sorted Report**
-- **Smart Sorting**: MeterCategory↑, ConsumedService↑, Cost↓
-- **BillSort.csv Export**: Direct CSV export in sorted format
-- **Excel Integration**: New "Combined_Sorted" sheet in Excel reports
-- **Web Interface**: Enhanced UI with dedicated export buttons
-- **API Access**: RESTful endpoint for programmatic access
-
-### 📊 **Core Analytics**
-- **Multi-dimensional Analysis**: Service, Category, Resource breakdowns
-- **Interactive Web Interface**: User-friendly dashboard
-- **Excel Reporting**: Comprehensive multi-sheet reports
-- **Search & Filter**: Find specific resources and services
-- **Cost Visualization**: Top costs and percentage breakdowns
-
-### 💻 **Multiple Interfaces**
-- **Web Application**: Flask-based dashboard
-- **Command Line**: Enhanced CLI with Combined Sorted Report
-- **Python API**: Programmatic access for automation
-- **REST API**: JSON endpoints for integration
+### 🔧 **Core Analytics**
+- **📈 Multi-dimensional Analysis** - By service, category, and resource
+- **🔎 Smart Search** - Find resources, services, or categories instantly
+- **📋 Excel Export** - Comprehensive reports with multiple worksheets
+- **📱 Responsive Design** - Modern Bootstrap UI that works on all devices
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package installer)
-
-### Installation
-
+### Option 1: Automated Setup (Recommended)
 ```bash
-# Clone the repository
-git clone https://github.com/OlapOffice/FabricBillAnalyzer.git
-cd FabricBillAnalyzer
+python run_app.py
+```
+This script will:
+- Check Python version compatibility
+- Install missing dependencies
+- Verify project structure
+- Create sample data
+- Launch the web application
 
+### Option 2: Manual Setup
+```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the web application
+# Run the application
 python app.py
 ```
 
-Open your browser to: **http://localhost:5000**
-
-### Alternative: Use the Launcher
-On Windows, simply double-click `run.bat`
-
-## 📖 Usage
-
-### Web Interface
-1. Upload your CSV billing file
-2. View comprehensive analysis results
-3. **NEW**: Export Combined Sorted Report as BillSort.csv
-4. Export full Excel report with multiple sheets
-
-### Command Line
+### Option 3: Test Suite
 ```bash
-# Basic analysis with Combined Sorted Report
-python cli.py
-
-# Export all formats
-python cli.py --excel --csv --combined
-
-# Specific file analysis
-python cli.py data/my_fabric_bill.csv --combined
+# Run comprehensive feature tests
+python test_app.py
 ```
-
-### Python API
-```python
-from analyzer import FabricBillAnalyzer
-
-analyzer = FabricBillAnalyzer()
-analyzer.load_data('bills/sample_fabric_bill.csv')
-
-# NEW: Generate Combined Sorted Report
-combined_report = analyzer.generate_combined_sorted_report()
-csv_file = analyzer.export_combined_sorted_csv()
-excel_file = analyzer.export_to_excel()
-```
-
-## 📋 Required CSV Format
-
-Your input CSV must contain these columns:
-
-| Column | Description | Example |
-|--------|-------------|---------|
-| `MeterCategory` | Azure service category | Azure App Service |
-| `ConsumedService` | Specific Azure service | microsoft.web |
-| `ResourceName` | Resource identifier | webapp-prod |
-| `Cost` | Numeric cost value | 89.75 |
-
-### Sample Data
-```csv
-MeterCategory,ConsumedService,ResourceName,Cost
-Azure App Service,microsoft.web,webapp-prod,89.75
-Azure Storage,Microsoft.Storage,stg001,125.50
-Compute,Microsoft.Compute,vm-production,445.67
-```
-
-## 🆕 Combined Sorted Report
-
-The new **Combined Sorted Report** feature provides intelligent data organization:
-
-### Sorting Algorithm
-1. **MeterCategory** (Ascending) - Groups similar services
-2. **ConsumedService** (Ascending) - Sub-groups within categories  
-3. **Cost** (Descending) - Highest costs first within each group
-
-### Output Example
-```csv
-MeterCategory,ConsumedService,ResourceName,Cost
-Azure App Service,microsoft.web,webapp-prod,89.75
-Azure App Service,microsoft.web,oo100-asp,53.25
-Azure Cognitive Search,Microsoft.Search,gptkb-search,238.22
-Azure Storage,Microsoft.Storage,stg001,125.50
-```
-
-### Export Options
-- **BillSort.csv**: Direct CSV export
-- **Excel Sheet**: "Combined_Sorted" tab in Excel reports
-- **Web Display**: Formatted table with sort indicators
-- **JSON API**: `/api/combined_report/<filename>`
 
 ## 📁 Project Structure
 
 ```
-FabricBillAnalyzer/
-├── 📄 analyzer.py              # Core analysis engine with Combined Sorted Report
-├── 🌐 app.py                  # Flask web application
-├── 💻 cli.py                  # Command-line interface
-├── 🧪 test_combined_report.py # Test scripts
-├── 📋 requirements.txt        # Dependencies
-├── 🚀 run.bat                # Windows launcher
-├── 📁 templates/              # Web interface templates
-├── 📁 bills/                 # Sample data
-└── 📁 reports/              # Export folder
+fabric-bill-analyzer-enhanced/
+├── 📄 app.py                 # Flask web application
+├── 📄 analyzer.py            # Core analysis engine
+├── 📄 charts.py              # Interactive chart generation
+├── 📄 run_app.py             # Automated setup & launcher
+├── 📄 test_app.py            # Feature test suite
+├── 📄 requirements.txt       # Python dependencies
+├── 📁 templates/             # HTML templates
+│   ├── index.html            # Main dashboard
+│   ├── analysis.html         # Analysis results
+│   ├── filter.html           # Advanced filtering
+│   └── search_results.html   # Search interface
+├── 📁 bills/                 # Upload directory
+├── 📁 reports/               # Export directory
+└── 📄 README.md              # This file
 ```
 
-## 🔌 API Endpoints
+## 📊 Data Requirements
 
-### REST API
-- `GET /` - Main dashboard
-- `POST /upload` - File upload
-- `GET /analyze/<filename>` - Analysis results
-- `GET /export_excel/<filename>` - Excel export
-- `GET /export_combined_csv/<filename>` - 🆕 BillSort CSV export
-- `GET /api/stats/<filename>` - Basic statistics (JSON)
-- `GET /api/combined_report/<filename>` - 🆕 Combined Sorted Report (JSON)
+Your CSV/Excel file must contain these columns:
+- **MeterCategory** - Service category (e.g., "Storage", "Azure App Service")
+- **ConsumedService** - Service name (e.g., "Microsoft.Storage")
+- **ResourceName** - Resource identifier
+- **Cost** - Billing cost (numeric)
 
-## 🧪 Testing
+### Optional Columns (Enhanced Features):
+- ResourceGroup, ResourceLocation, ResourceType, MeterName
 
-### Run Tests
+## 📥 How to Get Your Azure Billing Data
+
+### ✅ **Azure Invoice Download Checklist**
+
+Follow these steps to download your Azure invoice and usage data:
+
+1. **Go to Subscription**
+   - Navigate to the [Azure portal](https://portal.azure.com) and select the relevant subscription
+
+2. **Access Billing**
+   - In the subscription menu, click on **Billing** to view billing-related options
+
+3. **Open Invoices**
+   - Select **Invoices** to see a list of available billing documents
+
+4. **Select Invoice**
+   - Choose the specific invoice you want to download from the list
+
+5. **Prepare Azure Usage File**
+   - If needed, generate the detailed usage file associated with the invoice
+
+6. **Download**
+   - Click **Download** to save the invoice and usage file to your device
+
+💡 **Pro Tip**: The detailed usage CSV file contains all the columns needed for this analyzer!
+
+## 🔍 Microsoft Fabric Capacity Metrics
+
+### **Enhanced Monitoring for Fabric Admins**
+
+For **Microsoft Fabric capacity admins** looking to gain deeper visibility into their resources, Microsoft provides a comprehensive monitoring solution:
+
+**📊 Fabric Capacity Metrics App**
+- Monitor usage of compute and storage on your capacities
+- Analyze utilization, processing time, and user details
+- Identify overload causes and peak demand times
+- Track resource consumption patterns
+- Easily identify the most demanding or most popular items
+
+**🔗 Resources:**
+- **Download from AppSource**: [Microsoft Fabric Capacity Metrics](https://appsource.microsoft.com/en-us/product/power-bi/pbi_pcmm.microsoftpremiumfabricpreviewreport)
+- **Installation Guide**: [Microsoft Learn - Fabric Metrics App](https://learn.microsoft.com/en-us/fabric/enterprise/metrics-app-install?tabs=1st)
+
+**💼 Why Use Both Tools?**
+- **Fabric Capacity Metrics App**: Real-time capacity monitoring and performance insights
+- **This Bill Analyzer**: Historical cost analysis, billing optimization, and detailed financial reporting
+
+Together, these tools provide complete visibility into both performance and cost aspects of your Microsoft Fabric deployment!
+
+## 🎯 Feature Guide
+
+### 📊 Interactive Charts
+- **Service Pie Chart** - Cost distribution by service
+- **Category Bar Chart** - Spending by category
+- **Top Resources** - Highest cost resources
+- **Cost Histogram** - Distribution analysis
+- **Sunburst Chart** - Hierarchical service view
+
+### 🔍 Advanced Filtering
+- **Category & Service Filters** - Dropdown selection
+- **Cost Range Sliders** - Min/Max cost filtering
+- **Text Search** - Resource name matching
+- **Multi-Filter Combinations** - Apply multiple filters simultaneously
+
+### 📑 Combined Sorted Report (NEW)
+Intelligent sorting algorithm:
+1. **MeterCategory** (Ascending) - Groups similar services
+2. **ConsumedService** (Ascending) - Sub-sorts within categories  
+3. **Cost** (Descending) - Shows highest costs first
+
+Export formats:
+- **BillSort.csv** - Standardized CSV format
+- **Excel Sheet** - Included in comprehensive Excel export
+
+### 🔎 Search & Export
+- **Global Search** - Find resources across all fields
+- **Excel Export** - Multi-sheet workbook with all analyses
+- **CSV Export** - Individual analysis downloads
+- **Print Support** - Printer-friendly layouts
+
+## 🌐 Web Interface
+
+### Main Dashboard (`/`)
+- File upload interface
+- Available files management
+- Feature overview
+
+### Analysis Page (`/analyze/<filename>`)
+- Interactive charts section
+- Key metrics dashboard
+- Multiple analysis views
+- Export options
+
+### Advanced Filtering (`/filter/<filename>`)
+- Dynamic filter controls
+- Real-time result updates
+- Export filtered data
+
+### Search Interface (`/search/<filename>?q=term`)
+- Global search functionality
+- Highlighted results
+- Export search results
+
+## 📡 API Endpoints
+
+- **GET** `/api/stats/<filename>` - Basic statistics JSON
+- **GET** `/api/combined_report/<filename>` - Combined sorted report JSON
+- **GET** `/export_excel/<filename>` - Download Excel report
+- **GET** `/export_combined_csv/<filename>` - Download BillSort.csv
+
+## 🛠️ Requirements
+
+### Python Dependencies
+```
+Flask==2.3.3
+pandas>=1.5.0
+plotly==5.17.0
+openpyxl>=3.0.0
+numpy>=1.21.0
+werkzeug>=2.0.0
+```
+
+### System Requirements
+- **Python**: 3.7 or higher
+- **Memory**: 2GB RAM (for large datasets)
+- **Storage**: 100MB free space
+- **Browser**: Chrome, Firefox, Safari, Edge
+
+## 🚀 Usage Examples
+
+### Getting Started with Azure Data
+1. **Download your Azure billing data** (see checklist above)
+2. **Upload the CSV/Excel file** to the analyzer
+3. **Click "Analyze"** to view comprehensive analysis
+4. **Explore interactive charts** and metrics
+5. **Export results** in Excel or CSV format
+
+### Basic Analysis Workflow
+1. Upload your Fabric billing CSV/Excel file
+2. Click "Analyze" to view comprehensive analysis
+3. Explore interactive charts and metrics
+4. Export results in Excel or CSV format
+
+### Advanced Filtering
+1. From analysis page, click "Advanced Filters"
+2. Set category, service, cost range, or text filters
+3. View real-time filtered results
+4. Export filtered data
+
+### Combined Sorted Report
+1. View the "Combined Sorted Report" section in analysis
+2. Data is automatically sorted by: Category↑, Service↑, Cost↓
+3. Click "Download BillSort.csv" for standardized export
+
+### Integration with Fabric Capacity Metrics
+1. **Use Fabric Capacity Metrics App** for real-time performance monitoring
+2. **Use this Bill Analyzer** for historical cost analysis and optimization
+3. **Combine insights** from both tools for complete Fabric governance
+
+## 🔧 Configuration
+
+### Port Configuration
+Default: `http://localhost:5000`
+
+To change port, edit `app.py`:
+```python
+app.run(debug=True, host='0.0.0.0', port=8080)
+```
+
+### File Size Limits
+Default: 16MB
+
+To change, edit `app.py`:
+```python
+MAX_CONTENT_LENGTH = 32 * 1024 * 1024  # 32MB
+```
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+**"Module not found" errors**
 ```bash
-# Test the new Combined Sorted Report feature
-python test_combined_report.py
-
-# Expected output:
-# ✅ Data loaded successfully
-# ✅ Combined Sorted Report generated successfully  
-# ✅ CSV exported successfully
-# ✅ Excel exported successfully
+pip install -r requirements.txt
 ```
 
-### Sample Data
-The repository includes sample data (`bills/sample_fabric_bill.csv`) with 10 records totaling $2,180.37 for testing.
+**"File not found" errors**
+- Ensure CSV has required columns
+- Check file permissions
+- Verify upload directory exists
 
-## 📊 Excel Report Sheets
+**Charts not displaying**
+- Clear browser cache
+- Check internet connection (for CDN resources)
+- Verify Plotly.js is loading
 
-| Sheet Name | Description |
-|------------|-------------|
-| Summary | Key metrics and totals |
-| By_Service | Analysis grouped by service |
-| By_Category | Analysis grouped by category |
-| By_Resource | Analysis grouped by resource |
-| **Combined_Sorted** | 🆕 **NEW**: Intelligently sorted data |
-| Top_Costs | Highest cost items |
-| Raw_Data | Original uploaded data |
+**Performance issues with large files**
+- Use filtering to reduce dataset size
+- Consider processing files in chunks
+- Increase system memory allocation
 
-## 🤝 Contributing
+### Debug Mode
+Run with enhanced logging:
+```bash
+export FLASK_DEBUG=1
+python app.py
+```
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## 🤝 Support
+
+For support, feature requests, or bug reports:
+- 🌐 Visit: [https://semanticise.com/](https://semanticise.com/)
+- 📧 Contact: Semanticise Inc. support team
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆕 What's New in This Version
+## 🏢 About Semanticise Inc.
 
-### Enhanced Features
-- ✅ **Combined Sorted Report** - Intelligent data sorting and organization
-- ✅ **BillSort.csv Export** - Direct CSV export in sorted format
-- ✅ **Enhanced Excel Reports** - New "Combined_Sorted" sheet
-- ✅ **Improved Web Interface** - New export buttons and displays
-- ✅ **Extended CLI** - Command-line access to new features
-- ✅ **Comprehensive Testing** - Test scripts and validation
+**Semanticise Inc.** is a leading provider of AI-powered analytics and business intelligence solutions. We specialize in transforming complex data into actionable insights.
 
-### Backward Compatibility
-- ✅ All existing functionality preserved
-- ✅ Same CSV input requirements
-- ✅ Same API endpoints (with additions)
-- ✅ No breaking changes
-
-## 🚀 Getting Started with Your Data
-
-1. **Prepare your CSV** with the required columns
-2. **Upload via web interface** or use CLI
-3. **Analyze your costs** across services and categories
-4. **Export Combined Sorted Report** for organized cost analysis
-5. **Generate comprehensive Excel reports** for detailed insights
-
-## 🎯 Use Cases
-
-- **Cost Optimization**: Identify highest cost resources and services
-- **Budget Planning**: Understand spending patterns across categories
-- **Resource Management**: Track resource utilization and costs
-- **Financial Reporting**: Generate formatted reports for stakeholders
-- **Data Analysis**: Export structured data for further analysis
-
-## 📞 Support
-
-- 📧 **Issues**: Use GitHub Issues for bug reports and feature requests
-- 📖 **Documentation**: Check the `USAGE_GUIDE.md` for detailed instructions
-- 💡 **Examples**: See sample data and test scripts in the repository
+🔗 **Learn more**: [https://semanticise.com/](https://semanticise.com/)
 
 ---
 
-**🎊 Ready to analyze your Microsoft Fabric billing data with intelligent sorting!**
+## 🎉 Version History
 
-[![Made with ❤️ by OLAP Office](https://img.shields.io/badge/Made%20with%20❤️%20by-OLAP%20Office-red)](https://github.com/OlapOffice)
+### v2.0 - Enhanced Edition
+- ✅ Interactive Plotly charts
+- ✅ Advanced filtering system  
+- ✅ Combined sorted report feature
+- ✅ Improved UI/UX design
+- ✅ Real-time data processing
+- ✅ Enhanced search functionality
+
+### v1.0 - Initial Release
+- ✅ Basic analysis features
+- ✅ Excel export functionality
+- ✅ Web interface
+- ✅ Multi-dimensional reporting
+
+---
+
+**Made with ❤️ by [Semanticise Inc.](https://semanticise.com/)**
