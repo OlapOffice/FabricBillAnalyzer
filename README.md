@@ -1,12 +1,27 @@
-# 🚀 Microsoft Fabric Bill Analyzer - Enhanced Edition
+# 🚀 Microsoft Azure & Fabric Bill Analyzer - Enhanced Edition
 
 **Powered by [Semanticise Inc.](https://semanticise.com/)**
 
-A comprehensive Flask web application for analyzing Microsoft Fabric billing data with interactive charts, advanced filtering, and intelligent reporting features.
+A comprehensive Flask web application for analyzing Microsoft Azure & Fabric billing data with interactive charts, advanced filtering, and intelligent reporting features.
 
 ![Version](https://img.shields.io/badge/version-2.0-green)
 ![Python](https://img.shields.io/badge/python-3.7+-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
+
+## 📊 **NEW: Visual Workflow Guide**
+
+🎨 **Interactive Visual Guide Available!** 
+
+Open `VISUAL_WORKFLOW_GUIDE.html` in your browser for a comprehensive interactive guide with:
+- **8 Interactive Mermaid Diagrams** showing complete user workflows
+- **Step-by-step visual guidance** for all user types
+- **Troubleshooting decision trees** for quick problem resolution  
+- **Export options guide** with detailed explanations
+- **Responsive design** that works on all devices
+
+**Quick Access:** Double-click `VISUAL_WORKFLOW_GUIDE.html` to open in your default browser.
+
+---
 
 ## ✨ Key Features
 
@@ -53,22 +68,35 @@ python test_app.py
 ## 📁 Project Structure
 
 ```
-fabric-bill-analyzer-enhanced/
-├── 📄 app.py                 # Flask web application
-├── 📄 analyzer.py            # Core analysis engine
-├── 📄 charts.py              # Interactive chart generation
-├── 📄 run_app.py             # Automated setup & launcher
-├── 📄 test_app.py            # Feature test suite
-├── 📄 requirements.txt       # Python dependencies
-├── 📁 templates/             # HTML templates
-│   ├── index.html            # Main dashboard
-│   ├── analysis.html         # Analysis results
-│   ├── filter.html           # Advanced filtering
-│   └── search_results.html   # Search interface
-├── 📁 bills/                 # Upload directory
-├── 📁 reports/               # Export directory
-└── 📄 README.md              # This file
+azure-fabric-bill-analyzer-enhanced/
+├── 📄 app.py                          # Flask web application
+├── 📄 analyzer.py                     # Core analysis engine
+├── 📄 charts.py                       # Interactive chart generation
+├── 📄 run_app.py                      # Automated setup & launcher
+├── 📄 test_app.py                     # Feature test suite
+├── 📄 requirements.txt                # Python dependencies
+├── 📄 VISUAL_WORKFLOW_GUIDE.html      # 🆕 Interactive visual guide
+├── 📄 WORKFLOW_DIAGRAM.md             # Detailed text workflows
+├── 📄 MERMAID_DIAGRAMS.md             # Mermaid diagram source code
+├── 📄 QUICK_REFERENCE.md              # Fast-access user guide
+├── 📁 templates/                      # HTML templates
+│   ├── index.html                     # Main dashboard
+│   ├── analysis.html                  # Analysis results
+│   ├── filter.html                    # Advanced filtering
+│   └── search_results.html            # Search interface
+├── 📁 bills/                          # Upload directory
+├── 📁 reports/                        # Export directory
+└── 📄 README.md                       # This file
 ```
+
+## 📚 Documentation Guide
+
+| Document | Purpose | Best For |
+|----------|---------|----------|
+| 📊 **VISUAL_WORKFLOW_GUIDE.html** | Interactive diagrams & workflows | All users - visual learners |
+| 📋 **WORKFLOW_DIAGRAM.md** | Detailed step-by-step text guide | Complete process understanding |
+| 🎨 **MERMAID_DIAGRAMS.md** | Source code for all diagrams | Developers & customization |
+| ⚡ **QUICK_REFERENCE.md** | Fast-access essential info | Quick starts & troubleshooting |
 
 ## 📊 Data Requirements
 
@@ -211,15 +239,19 @@ werkzeug>=2.0.0
 
 ## 🚀 Usage Examples
 
+### 🎨 Visual Guide First!
+**New users should start here:** Open `VISUAL_WORKFLOW_GUIDE.html` in your browser for interactive step-by-step guidance with visual diagrams.
+
 ### Getting Started with Azure Data
 1. **Download your Azure billing data** (see checklist above)
-2. **Upload the CSV/Excel file** to the analyzer
-3. **Click "Analyze"** to view comprehensive analysis
-4. **Explore interactive charts** and metrics
-5. **Export results** in Excel or CSV format
+2. **Open the Visual Guide** (`VISUAL_WORKFLOW_GUIDE.html`) for interactive workflow
+3. **Upload the CSV/Excel file** to the analyzer
+4. **Click "Analyze"** to view comprehensive analysis
+5. **Explore interactive charts** and metrics
+6. **Export results** in Excel or CSV format
 
 ### Basic Analysis Workflow
-1. Upload your Fabric billing CSV/Excel file
+1. Upload your Azure & Fabric billing CSV/Excel file
 2. Click "Analyze" to view comprehensive analysis
 3. Explore interactive charts and metrics
 4. Export results in Excel or CSV format
@@ -238,7 +270,7 @@ werkzeug>=2.0.0
 ### Integration with Fabric Capacity Metrics
 1. **Use Fabric Capacity Metrics App** for real-time performance monitoring
 2. **Use this Bill Analyzer** for historical cost analysis and optimization
-3. **Combine insights** from both tools for complete Fabric governance
+3. **Combine insights** from both tools for complete Azure & Fabric governance
 
 ## 🔧 Configuration
 
@@ -316,12 +348,30 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ Improved UI/UX design
 - ✅ Real-time data processing
 - ✅ Enhanced search functionality
+- ✅ **NEW: Interactive Visual Workflow Guide** 🎨
+- ✅ **NEW: Comprehensive Mermaid Diagrams** 📊
+- ✅ **NEW: Multi-format Documentation** 📚
 
 ### v1.0 - Initial Release
 - ✅ Basic analysis features
 - ✅ Excel export functionality
 - ✅ Web interface
 - ✅ Multi-dimensional reporting
+
+---
+
+## 🌟 Quick Start Summary
+
+1. **📊 Open Visual Guide**: Double-click `VISUAL_WORKFLOW_GUIDE.html`
+2. **📥 Get Data**: Download Azure billing CSV from portal
+3. **🚀 Launch**: Run `python run_app.py` 
+4. **🌐 Access**: Open http://localhost:5000
+5. **📤 Upload**: Drag & drop your CSV file
+6. **🔍 Analyze**: Click "Analyze" button
+7. **📊 Explore**: View charts and reports
+8. **📤 Export**: Download Excel or BillSort.csv
+
+**🎯 Need Help?** Start with the **Visual Workflow Guide** for interactive step-by-step guidance!
 
 ---
 

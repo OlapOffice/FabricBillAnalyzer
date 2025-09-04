@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Azure & Fabric Bill Analyzer - Visual Workflow Guide</title>
+    
+    <!-- Mermaid.js for diagram rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container-fluid {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .diagram-section {
+            margin-bottom: 50px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #2196F3;
+        }
+        
+        .diagram-title {
+            color: #1976D2;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .diagram-title i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .diagram-description {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .mermaid {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: #2196F3;
+        }
+        
+        .nav-pills .nav-link {
+            color: #2196F3;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .toc {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .badge-custom {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .quick-links {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .quick-links {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+            }
+        }
+        
+        .footer {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Quick Navigation Links -->
+    <div class="quick-links d-none d-lg-block">
+        <h6>Quick Jump:</h6>
+        <a href="#workflow" class="btn btn-sm btn-outline-primary">Complete Workflow</a><br>
+        <a href="#features" class="btn btn-sm btn-outline-primary mt-1">Features</a><br>
+        <a href="#journey" class="btn btn-sm btn-outline-primary mt-1">User Journey</a><br>
+        <a href="#architecture" class="btn btn-sm btn-outline-primary mt-1">Architecture</a><br>
+        <a href="#decisions" class="btn btn-sm btn-outline-primary mt-1">Decisions</a><br>
+        <a href="#exports" class="btn btn-sm btn-outline-primary mt-1">Exports</a><br>
+        <a href="#troubleshoot" class="btn btn-sm btn-outline-primary mt-1">Help</a>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 Microsoft Azure & Fabric Bill Analyzer</h1>
+            <h3>Visual Workflow Guide</h3>
+            <p class="mb-0">Comprehensive Interactive Diagrams for Understanding the Complete User Journey</p>
+            <small>Powered by <strong>Semanticise Inc.</strong> | <a href="https://semanticise.com/" class="text-white">https://semanticise.com/</a></small>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h4>📋 Table of Contents</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><a href="#workflow">1. 🔄 Complete User Workflow</a></li>
+                        <li><a href="#features">2. 🎨 Feature Interaction Map</a></li>
+                        <li><a href="#journey">3. 🗺️ User Journey Experience</a></li>
+                        <li><a href="#architecture">4. 🏗️ Data Flow Architecture</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><a href="#decisions">5. 🌳 Analysis Decision Tree</a></li>
+                        <li><a href="#exports">6. 📤 Export Options Guide</a></li>
+                        <li><a href="#troubleshoot">7. 🛠️ Troubleshooting Helper</a></li>
+                        <li><a href="#quickstart">8. ⚡ Quick Start Flow</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alert alert-info mt-3">
+                <strong>💡 Pro Tip:</strong> Click on any diagram element to explore interactive features. Use the quick jump links on the right for faster navigation.
+            </div>
+        </div>
+
+        <!-- Navigation Pills -->
+        <ul class="nav nav-pills mb-4" id="diagramTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="pill" href="#all-diagrams">All Diagrams</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="pill" href="#getting-started">Getting Started</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="pill" href="#advanced">Advanced Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="pill" href="#technical">Technical Details</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="all-diagrams">
+                
+                <!-- Diagram 1: Complete User Workflow -->
+                <div class="diagram-section" id="workflow">
+                    <h2 class="diagram-title">
+                        🔄 Complete User Workflow
+                        <span class="badge-custom">Essential</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> This comprehensive flowchart shows the entire user journey from initial data preparation through final business analysis. Perfect for understanding the complete process.
+                        <br><strong>Best for:</strong> All users, training materials, process documentation
+                    </div>
+                    <div class="mermaid">
+                        flowchart TD
+                            A[🏁 START: User has Azure/Fabric billing data] --> B[📥 Obtain Azure billing CSV<br/>Portal → Subscription → Billing → Invoices]
+                            
+                            B --> C{📋 Data Format Check<br/>Required Columns?}
+                            C -->|✅ Valid Format| D[🚀 Choose Launch Method]
+                            C -->|❌ Invalid Format| E[❌ Fix data format<br/>Need: MeterCategory, ConsumedService,<br/>ResourceName, Cost]
+                            E --> B
+                            
+                            D --> F[🖥️ Web App<br/>python run_app.py<br/>🌟 Recommended]
+                            D --> G[💻 Command Line<br/>python cli.py<br/>⚡ Advanced Users]
+                            D --> H[🔧 Direct Launch<br/>python app.py<br/>🛠️ Manual Setup]
+                            
+                            F --> I[🌐 Web Dashboard<br/>http://localhost:5000]
+                            G --> J[📊 CLI Analysis & Export]
+                            H --> I
+                            
+                            I --> K[📤 Upload File<br/>Drag & Drop or Browse]
+                            K --> L{✅ File Validation<br/>Size < 16MB?<br/>Valid CSV/Excel?}
+                            L -->|❌ Validation Failed| M[❌ Show Error Message<br/>• Check file format<br/>• Verify columns<br/>• Check file size]
+                            L -->|✅ Validation Passed| N[🔍 Choose Analysis Type]
+                            M --> K
+                            
+                            N --> O[📊 Full Analysis<br/>Complete Dashboard]
+                            N --> P[🔍 Search Data<br/>Find Specific Resources]  
+                            N --> Q[🎛️ Advanced Filters<br/>Multi-dimensional Filtering]
+                            
+                            O --> R[📈 Interactive Dashboard<br/>• Key Metrics<br/>• Interactive Charts<br/>• Combined Sorted Report]
+                            P --> S[🔎 Search Results<br/>• Highlighted Matches<br/>• Export Options]
+                            Q --> T[🎚️ Filtered Results<br/>• Real-time Updates<br/>• Custom Subsets]
+                            
+                            R --> U[📊 Explore Features<br/>• Service Pie Chart<br/>• Category Bar Chart<br/>• Top Resources<br/>• Cost Histogram<br/>• Sunburst Chart]
+                            S --> U
+                            T --> U
+                            
+                            U --> V{📤 Choose Export Format}
+                            V --> W[📋 Excel Report<br/>7 comprehensive sheets<br/>Complete analysis]
+                            V --> X[📄 BillSort CSV<br/>Combined sorted report<br/>Category↑ Service↑ Cost↓]  
+                            V --> Y[🔍 Custom Export<br/>Search/Filter results<br/>Targeted data]
+                            
+                            W --> Z[💼 Business Analysis<br/>• Cost optimization<br/>• Trend analysis<br/>• Stakeholder reports]
+                            X --> Z
+                            Y --> Z
+                            
+                            Z --> AA{🔄 Continue Analysis?}
+                            AA -->|Yes - New Data| B
+                            AA -->|Yes - Same Data| N
+                            AA -->|No| BB[🎯 END: Successful Analysis<br/>✅ Reports generated<br/>✅ Insights gained<br/>✅ Action items identified]
+                            
+                            J --> CC[📊 CLI Results Display]
+                            CC --> DD{📤 Export from CLI?}
+                            DD -->|Yes| EE[📋 Generate Export Files<br/>• Excel reports<br/>• CSV exports<br/>• Combined reports]
+                            DD -->|No| FF[📺 View CLI Results<br/>Terminal output]
+                            EE --> AA
+                            FF --> AA
+                            
+                            style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                            style BB fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+                            style R fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                            style U fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                            style Z fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                            style F fill:#e8f5e8,stroke:#4caf50,stroke-width:2px
+                            style G fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+                            style H fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+                    </div>
+                </div>
+
+                <!-- Diagram 2: Feature Interaction Map -->
+                <div class="diagram-section" id="features">
+                    <h2 class="diagram-title">
+                        🎨 Feature Interaction Map
+                        <span class="badge-custom">Technical</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Shows how all application components work together and interact. Useful for understanding system architecture and feature relationships.
+                        <br><strong>Best for:</strong> Technical users, developers, system architects
+                    </div>
+                    <div class="mermaid">
+                        graph TB
+                            subgraph "Core Analysis Engine"
+                                A[📊 Data Processing<br/>• CSV/Excel parsing<br/>• Data validation<br/>• Statistical analysis]
+                            end
+                            
+                            subgraph "Interactive Features"
+                                B[📈 Interactive Charts<br/>• Plotly visualizations<br/>• Hover details<br/>• Click interactions]
+                                C[🔍 Search & Filter<br/>• Global search<br/>• Advanced filtering<br/>• Real-time results]
+                                D[📋 Combined Sorted Report<br/>• Smart sorting algorithm<br/>• Category→Service→Cost<br/>• Standardized format]
+                            end
+                            
+                            subgraph "Export & Integration"
+                                E[📤 Multi-format Export<br/>• Excel workbooks<br/>• CSV files<br/>• Custom formats]
+                                F[🔌 REST API<br/>• JSON endpoints<br/>• Automation ready<br/>• Third-party integration]
+                            end
+                            
+                            subgraph "User Interfaces"
+                                G[🌐 Web Dashboard<br/>• Responsive design<br/>• Intuitive navigation<br/>• Real-time updates]
+                                H[💻 CLI Interface<br/>• Batch processing<br/>• Scripting support<br/>• Advanced options]
+                            end
+                            
+                            A --> B
+                            A --> C
+                            A --> D
+                            B --> E
+                            C --> E
+                            D --> E
+                            E --> F
+                            G --> A
+                            H --> A
+                            B --> G
+                            C --> G
+                            D --> G
+                            
+                            style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+                            style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                            style C fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                            style D fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                            style E fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+                            style F fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+                            style G fill:#f9fbe7,stroke:#689f38,stroke-width:2px
+                            style H fill:#fff8e1,stroke:#fbc02d,stroke-width:2px
+                    </div>
+                </div>
+
+                <!-- Diagram 3: User Journey -->
+                <div class="diagram-section" id="journey">
+                    <h2 class="diagram-title">
+                        🗺️ User Journey Experience
+                        <span class="badge-custom">UX Design</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Maps the emotional and functional user experience throughout the analysis process. Shows satisfaction levels and pain points.
+                        <br><strong>Best for:</strong> UX designers, product managers, user experience optimization
+                    </div>
+                    <div class="mermaid">
+                        journey
+                            title Microsoft Azure & Fabric Bill Analyzer User Journey
+                            
+                            section Data Preparation
+                              Download Azure billing data: 5: User
+                              Verify CSV format: 3: User
+                              Check required columns: 4: User
+                            
+                            section Application Launch
+                              Launch web application: 5: User
+                              Access dashboard: 5: User
+                              Upload data file: 4: User
+                            
+                            section Analysis Phase
+                              Choose analysis type: 4: User
+                              Explore interactive charts: 5: User
+                              Review cost metrics: 5: User
+                              Use advanced filters: 4: User
+                            
+                            section Insights & Export
+                              Generate reports: 5: User
+                              Export to Excel: 5: User
+                              Download BillSort CSV: 4: User
+                              Share with stakeholders: 5: User
+                            
+                            section Action Items
+                              Identify cost optimization: 5: User
+                              Plan budget adjustments: 4: User
+                              Schedule regular analysis: 3: User
+                    </div>
+                </div>
+
+                <!-- Diagram 4: Data Flow Architecture -->
+                <div class="diagram-section" id="architecture">
+                    <h2 class="diagram-title">
+                        🏗️ Data Flow Architecture
+                        <span class="badge-custom">Architecture</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Technical overview of how data flows through the system from input to output. Essential for understanding system design.
+                        <br><strong>Best for:</strong> Developers, system architects, technical implementation teams
+                    </div>
+                    <div class="mermaid">
+                        graph LR
+                            subgraph "Input Layer"
+                                A[📄 Azure Billing CSV<br/>Required Columns:<br/>• MeterCategory<br/>• ConsumedService<br/>• ResourceName<br/>• Cost]
+                                B[📊 Excel Files<br/>Multiple sheets<br/>supported]
+                            end
+                            
+                            subgraph "Processing Layer"
+                                C[🔍 Data Validation<br/>• Column verification<br/>• Data type checking<br/>• Error handling]
+                                D[📊 Analysis Engine<br/>• Statistical analysis<br/>• Grouping & sorting<br/>• Calculations]
+                                E[🎨 Chart Generation<br/>• Plotly integration<br/>• Interactive features<br/>• Export ready]
+                            end
+                            
+                            subgraph "Output Layer"
+                                F[🌐 Web Dashboard<br/>• Interactive charts<br/>• Real-time filtering<br/>• Responsive design]
+                                G[📋 Excel Reports<br/>• 7 comprehensive sheets<br/>• Formatted tables<br/>• Ready for business use]
+                                H[📄 BillSort CSV<br/>• Smart sorting<br/>• Standardized format<br/>• Integration ready]
+                                I[🔌 REST API<br/>• JSON responses<br/>• Automation support<br/>• Third-party integration]
+                            end
+                            
+                            A --> C
+                            B --> C
+                            C --> D
+                            D --> E
+                            D --> F
+                            D --> G
+                            D --> H
+                            D --> I
+                            E --> F
+                            
+                            style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                            style B fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                            style C fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                            style D fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                            style E fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                            style F fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+                            style G fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+                            style H fill:#f9fbe7,stroke:#689f38,stroke-width:2px
+                            style I fill:#fff8e1,stroke:#fbc02d,stroke-width:2px
+                    </div>
+                </div>
+
+                <!-- Diagram 5: Decision Tree -->
+                <div class="diagram-section" id="decisions">
+                    <h2 class="diagram-title">
+                        🌳 Analysis Decision Tree
+                        <span class="badge-custom">Decision Support</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Helps users choose the right analysis method based on their goals. Guides decision-making for optimal results.
+                        <br><strong>Best for:</strong> New users, training materials, decision support
+                    </div>
+                    <div class="mermaid">
+                        graph TD
+                            A[📊 Start Analysis] --> B{What's your goal?}
+                            
+                            B -->|Complete Overview| C[📈 Full Dashboard Analysis]
+                            B -->|Find Specific Items| D[🔍 Search Analysis]
+                            B -->|Custom Data Subset| E[🎛️ Advanced Filtering]
+                            B -->|Automation/Integration| F[💻 CLI/API Approach]
+                            
+                            C --> G[Interactive Charts<br/>• Service pie chart<br/>• Category bar chart<br/>• Top resources<br/>• Cost histogram<br/>• Sunburst view]
+                            
+                            D --> H[Search Results<br/>• Keyword matching<br/>• Highlighted results<br/>• Filtered exports]
+                            
+                            E --> I[Filtered Dashboard<br/>• Real-time filtering<br/>• Multi-dimensional<br/>• Custom exports]
+                            
+                            F --> J[Automated Processing<br/>• Batch analysis<br/>• Scripted exports<br/>• API integration]
+                            
+                            G --> K{Export Needs?}
+                            H --> K
+                            I --> K
+                            J --> K
+                            
+                            K -->|Comprehensive Report| L[📋 Excel Export<br/>7-sheet workbook]
+                            K -->|Standard Format| M[📄 BillSort CSV<br/>Smart sorted data]
+                            K -->|Custom Data| N[🎯 Filtered Export<br/>Targeted subset]
+                            
+                            L --> O[📊 Business Analysis]
+                            M --> O
+                            N --> O
+                            
+                            O --> P[🎯 Action Items<br/>• Cost optimization<br/>• Budget planning<br/>• Trend monitoring]
+                            
+                            style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                            style O fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+                            style P fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+                            style C fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                            style D fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                            style E fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                            style F fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+                    </div>
+                </div>
+
+                <!-- Diagram 6: Export Options -->
+                <div class="diagram-section" id="exports">
+                    <h2 class="diagram-title">
+                        📤 Export Options Guide
+                        <span class="badge-custom">Business Use</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Comprehensive guide to all export formats and their specific use cases. Helps users choose the right export option.
+                        <br><strong>Best for:</strong> Business users, report generation, data integration teams
+                    </div>
+                    <div class="mermaid">
+                        graph TB
+                            A[📤 Export Decision Point] --> B{Choose Export Format}
+                            
+                            B -->|Complete Analysis| C[📋 Excel Export]
+                            B -->|Standardized Data| D[📄 BillSort CSV]
+                            B -->|Custom Subset| E[🎯 Filtered Export]
+                            B -->|Integration| F[🔌 API Access]
+                            
+                            C --> C1[📊 Summary Sheet<br/>Key metrics & overview]
+                            C --> C2[🏢 By Service Sheet<br/>Service-level analysis]
+                            C --> C3[📦 By Category Sheet<br/>Category breakdown]
+                            C --> C4[🔧 By Resource Sheet<br/>Resource details]
+                            C --> C5[🆕 Combined Sorted Sheet<br/>Smart sorting algorithm]
+                            C --> C6[🏆 Top Costs Sheet<br/>Highest cost items]
+                            C --> C7[📊 Raw Data Sheet<br/>Original dataset]
+                            
+                            D --> D1[📄 Standardized Format<br/>MeterCategory, ConsumedService,<br/>ResourceName, Cost]
+                            D --> D2[🔄 Smart Sorting<br/>Category↑ → Service↑ → Cost↓]
+                            D --> D3[🔗 Integration Ready<br/>Standard format for<br/>other tools/systems]
+                            
+                            E --> E1[🔍 Search Results<br/>Keyword-filtered data]
+                            E --> E2[🎛️ Filter Results<br/>Multi-criteria filtered data]
+                            E --> E3[📊 Custom Analysis<br/>User-defined subsets]
+                            
+                            F --> F1[📊 GET /api/stats/<br/>Basic statistics JSON]
+                            F --> F2[📋 GET /api/combined_report/<br/>Sorted report JSON]
+                            F --> F3[📤 GET /export_excel/<br/>Download Excel file]
+                            F --> F4[📄 GET /export_combined_csv/<br/>Download BillSort CSV]
+                            
+                            style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                            style C fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                            style D fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                            style E fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                            style F fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+                    </div>
+                </div>
+
+                <!-- Diagram 7: Troubleshooting -->
+                <div class="diagram-section" id="troubleshoot">
+                    <h2 class="diagram-title">
+                        🛠️ Troubleshooting Decision Tree
+                        <span class="badge-custom">Support</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Quick problem resolution guide with step-by-step troubleshooting. Helps users solve common issues independently.
+                        <br><strong>Best for:</strong> Support teams, user self-service, problem resolution
+                    </div>
+                    <div class="mermaid">
+                        graph TD
+                            A[❌ Problem Encountered] --> B{What type of issue?}
+                            
+                            B -->|Installation| C[🔧 Dependency Issues]
+                            B -->|File Upload| D[📤 Upload Problems]
+                            B -->|Data Processing| E[📊 Analysis Errors]
+                            B -->|Display Issues| F[🖥️ UI Problems]
+                            
+                            C --> C1{Error: Module not found?}
+                            C1 -->|Yes| C2[💡 Run: pip install -r requirements.txt]
+                            C1 -->|No| C3[💡 Check Python version ≥ 3.7]
+                            
+                            D --> D1{File too large?}
+                            D1 -->|Yes| D2[💡 Use CLI for files > 16MB]
+                            D1 -->|No| D3[💡 Check file format: CSV/Excel only]
+                            
+                            E --> E1{Missing required columns?}
+                            E1 -->|Yes| E2[💡 Ensure columns:<br/>MeterCategory, ConsumedService,<br/>ResourceName, Cost]
+                            E1 -->|No| E3[💡 Check Cost column is numeric]
+                            
+                            F --> F1{Charts not loading?}
+                            F1 -->|Yes| F2[💡 Clear browser cache<br/>Check internet connection]
+                            F1 -->|No| F3[💡 Try different browser]
+                            
+                            C2 --> G[✅ Try Again]
+                            C3 --> G
+                            D2 --> G
+                            D3 --> G
+                            E2 --> G
+                            E3 --> G
+                            F2 --> G
+                            F3 --> G
+                            
+                            style A fill:#ffebee,stroke:#d32f2f,stroke-width:2px
+                            style G fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+                            style C2 fill:#e8f5e8,stroke:#388e3c,stroke-width:1px
+                            style D2 fill:#e8f5e8,stroke:#388e3c,stroke-width:1px
+                            style E2 fill:#e8f5e8,stroke:#388e3c,stroke-width:1px
+                            style F2 fill:#e8f5e8,stroke:#388e3c,stroke-width:1px
+                    </div>
+                </div>
+
+                <!-- Diagram 8: Quick Start Flow -->
+                <div class="diagram-section" id="quickstart">
+                    <h2 class="diagram-title">
+                        ⚡ Quick Start Flow
+                        <span class="badge-custom">Getting Started</span>
+                    </h2>
+                    <div class="diagram-description">
+                        <strong>Purpose:</strong> Simplified workflow for immediate use. Perfect for users who want to start analyzing data quickly.
+                        <br><strong>Best for:</strong> New users, quick onboarding, immediate results
+                    </div>
+                    <div class="mermaid">
+                        flowchart TD
+                            A[🏁 Start: Get Azure billing data] --> B[📥 Download CSV from Azure Portal]
+                            B --> C[🚀 Launch: python run_app.py]
+                            C --> D[🌐 Open: http://localhost:5000]
+                            D --> E[📤 Upload your CSV file]
+                            E --> F{✅ File Valid?}
+                            F -->|❌ No| G[❌ Fix format/columns]
+                            F -->|✅ Yes| H[🔍 Click 'Analyze']
+                            G --> E
+                            H --> I[📊 Explore Interactive Dashboard]
+                            I --> J{📤 Export needed?}
+                            J -->|Excel| K[📋 Download Excel Report]
+                            J -->|CSV| L[📄 Download BillSort CSV]
+                            J -->|Search| M[🔍 Filter & Export Custom Data]
+                            K --> N[💼 Business Analysis Complete]
+                            L --> N
+                            M --> N
+                            N --> O{🔄 Analyze more data?}
+                            O -->|Yes| B
+                            O -->|No| P[🎯 End: Insights & Action Items]
+
+                            style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                            style P fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+                            style I fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                            style N fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Getting Started Tab -->
+            <div class="tab-pane fade" id="getting-started">
+                <div class="alert alert-success">
+                    <h5>🚀 Perfect for New Users!</h5>
+                    <p>Start with these essential diagrams to get up and running quickly:</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">⚡ Quick Start Flow</h6>
+                                <p class="card-text">Essential steps to start analyzing immediately</p>
+                                <a href="#quickstart" class="btn btn-primary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">🔄 Complete Workflow</h6>
+                                <p class="card-text">Full process from start to finish</p>
+                                <a href="#workflow" class="btn btn-primary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Users Tab -->
+            <div class="tab-pane fade" id="advanced">
+                <div class="alert alert-info">
+                    <h5>💻 For Power Users & Automation</h5>
+                    <p>Advanced diagrams for experienced users and automation scenarios:</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">🌳 Decision Tree</h6>
+                                <p class="card-text">Choose the right analysis method</p>
+                                <a href="#decisions" class="btn btn-outline-primary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">📤 Export Options</h6>
+                                <p class="card-text">All export formats and use cases</p>
+                                <a href="#exports" class="btn btn-outline-primary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">🛠️ Troubleshooting</h6>
+                                <p class="card-text">Quick problem resolution guide</p>
+                                <a href="#troubleshoot" class="btn btn-outline-primary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Details Tab -->
+            <div class="tab-pane fade" id="technical">
+                <div class="alert alert-warning">
+                    <h5>🏗️ Technical Architecture & Implementation</h5>
+                    <p>Detailed technical diagrams for developers and architects:</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">🎨 Feature Interaction</h6>
+                                <p class="card-text">How all components work together</p>
+                                <a href="#features" class="btn btn-outline-secondary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">🏗️ Data Flow</h6>
+                                <p class="card-text">Technical data processing overview</p>
+                                <a href="#architecture" class="btn btn-outline-secondary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">🗺️ User Journey</h6>
+                                <p class="card-text">UX and user experience mapping</p>
+                                <a href="#journey" class="btn btn-outline-secondary btn-sm">View Diagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h5>🚀 Ready to Get Started?</h5>
+            <p class="mb-2"><strong>Launch the analyzer:</strong> <code>python run_app.py</code></p>
+            <p class="mb-2"><strong>Access dashboard:</strong> <a href="http://localhost:5000" class="text-white">http://localhost:5000</a></p>
+            <hr style="border-color: rgba(255,255,255,0.3);">
+            <p class="mb-0">
+                <strong>Powered by Semanticise Inc.</strong> | 
+                <a href="https://semanticise.com/" class="text-white">Visit Our Website</a> | 
+                <span class="text-light">Professional Azure & Fabric Analytics Solutions</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Initialize Mermaid -->
+    <script>
+        // Initialize Mermaid with custom configuration
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#2196F3',
+                primaryTextColor: '#1976D2',
+                primaryBorderColor: '#1976D2',
+                lineColor: '#757575',
+                secondaryColor: '#f5f5f5',
+                tertiaryColor: '#e3f2fd',
+                background: '#ffffff',
+                fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+                fontSize: '14px'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            journey: {
+                rightAngles: false
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add diagram interaction hints
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add tooltips to diagram elements (can be expanded for more interactivity)
+            const diagrams = document.querySelectorAll('.mermaid');
+            diagrams.forEach(diagram => {
+                diagram.style.cursor = 'pointer';
+                diagram.title = 'Click and explore this interactive diagram';
+            });
+        });
+    </script>
+</body>
+</html>
