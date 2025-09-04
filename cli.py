@@ -1,5 +1,5 @@
 """
-Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced CLI
+Semanticise Inc. Microsoft Azure & Fabric Bill Analyzer - Enhanced CLI
 Command-line interface with Combined Sorted Report feature
 """
 
@@ -9,7 +9,7 @@ from analyzer import FabricBillAnalyzer
 
 def main():
     print("="*70)
-    print("🚀 SEMANTICISE INC. MICROSOFT FABRIC BILL ANALYZER - ENHANCED")
+    print("🚀 SEMANTICISE INC. MICROSOFT AZURE & FABRIC BILL ANALYZER - ENHANCED")
     print("🌐 Visit us at: https://semanticise.com/")
     print("🆕 NEW FEATURE: Combined Sorted Report")
     print("="*70)

@@ -1,5 +1,5 @@
 """
-Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Flask Web Application
+Semanticise Inc. Microsoft Azure & Fabric Bill Analyzer - Enhanced Flask Web Application
 Web interface with Combined Sorted Report feature
 """
 
@@ -366,7 +366,7 @@ def internal_error(e):
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
-    print("Starting Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Version")
+    print("Starting Semanticise Inc. Microsoft Azure & Fabric Bill Analyzer - Enhanced Version")
     print("=" * 70)
     print("🚀 NEW FEATURE: Combined Sorted Report")
     print("   - Sort by: MeterCategory↑, ConsumedService↑, Cost↓")

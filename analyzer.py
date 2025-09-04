@@ -1,5 +1,5 @@
 """
-Semanticia Inc. Microsoft Fabric Bill Analyzer - Enhanced with Combined Sorted Report
+Semanticise Inc. Microsoft Azure & Fabric Bill Analyzer - Enhanced with Combined Sorted Report
 
 Copyright (c) 2025 Semanticise Inc.
 Powered by Semanticise Inc. - https://semanticise.com/
@@ -374,7 +374,7 @@ TOP 3 SERVICES BY COST:
 
 def main():
     """Main function for command-line usage."""
-    print("Semanticise Inc. Microsoft Fabric Bill Analyzer - Enhanced Version")
+    print("Semanticise Inc. Microsoft Azure & Fabric Bill Analyzer - Enhanced Version")
     print("🌐 Visit us at: https://semanticise.com/")
     print("=" * 60)
     
